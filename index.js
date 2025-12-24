@@ -10,7 +10,7 @@ const path = require("path");
 
 const app = express();
 
-app.set("port", process.env.PORT || 001)
+app.set("port", process.env.PORT || 4001)
 
 app.use(cors());
 app.use(express.json());
@@ -34,6 +34,9 @@ app.post("/api/contracts", (req,res,next)=>{
 
     if (fs.existsSync(filePath)){
         registry = JSON.parse(fs.readFileSync(filePath))
+    }
+    else{
+        fs.writeFileSync(filePath,"");
     }
 
     registry.push(payload);
