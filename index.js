@@ -25,7 +25,7 @@ app.post("/api/contracts", (req, res, next) => {
             return res.status(400).json({ error: "No data provided from api" });
         }
 
-        const filePath = path.join(__dirname, "contract_registry.json");
+        const filePath = path.join(__dirname, "/tmp/contract_registry.json");
 
         fs.writeFileSync(
             filePath,
@@ -41,7 +41,7 @@ app.post("/api/contracts", (req, res, next) => {
 
 app.get("/api/retrieve_contract_details", (req, res, next) => {
     try {
-        const filePath = path.join(__dirname, "contract_registry.json");
+        const filePath = path.join(__dirname, "/tmp/contract_registry.json");
 
         if (!fs.existsSync(filePath)) {
             return res.status(400).json({ error: "No data provided from cache" });
