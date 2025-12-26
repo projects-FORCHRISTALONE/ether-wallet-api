@@ -56,6 +56,10 @@ app.get("/api/retrieve_contract_details", (req,res)=>{
     }
 })
 
+app.use((req,res,next)=>{
+    res.status(500).json({error: "Server error"})
+})
+
 app.listen(app.get("port"), ()=>{
     console.log(`Server graciously running on port ${app.get("port")}`)
 })
