@@ -10,56 +10,60 @@ const path = require("path");
 
 const app = express();
 
-app.set("port", process.env.PORT || 4001)
+app.set("port", process.env.PORT || 4001);
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req,res)=>{
-    // res.type("application/json")
-    res.status(200).json({praiseToTheLord: "The Lord alone is praised"})
-})
+app.get("/", (req, res) => {
+    res.status(200).json({ praiseToTheLord: "The Lord alone is praised" });
+});
 
-app.post("/api/contracts", (req,res,next)=>{
+app.post("/api/contracts", (req, res, next) => {
+    try {
+        if (!req.body || Object.keys(req.body).length === 0) {
+            return res.status(400).json({ error: "No data provided from api" });
+        }
 
-    if(!req.body || Object.keys(req.body).length === 0){
-        return res.status(400).json({error: "No data provided from api"})
+        const filePath = path.join(__dirname, "contract_registry.json");
+
+        fs.writeFileSync(
+            filePath,
+            JSON.stringify(req.body, null, 2),
+            "utf8"
+        );
+
+        res.status(200).json({ updated: true });
+    } catch (err) {
+        next(err);
     }
+});
 
+app.get("/api/retrieve_contract_details", (req, res, next) => {
+    try {
+        const filePath = path.join(__dirname, "contract_registry.json");
 
+        if (!fs.existsSync(filePath)) {
+            return res.status(400).json({ error: "No data provided from cache" });
+        }
 
-    const filePath = path.join(__dirname, "contract_registry.json");
-
-    // if (fs.existsSync(filePath)){
-    //     fs.unlinkSync(filePath)
-    // }
-    
-    // registry.push(payload);
-    let registry = req.body
-
-    fs.writeFileSync(filePath, JSON.stringify(registry, null, 2))
-
-
-    res.status(200).json({updated: true})
-})
-
-app.get("/api/retrieve_contract_details", (req,res)=>{
-
-    filePath = path.join(__dirname, "contract_registry.json");
-
-    if (fs.existsSync(filePath)){
-        registry = JSON.parse(fs.readFileSync(filePath))
-        res.status(200).json({data: registry})
+        const registry = JSON.parse(fs.readFileSync(filePath, "utf8"));
+        res.status(200).json({ data: registry });
+    } catch (err) {
+        next(err);
     }
-    else{
-        res.status(400).json({error: "No data provided from cache"})
-    }
-})
+});
 
-app.use((req,res,next)=>{
-    res.status(500).json({error: "Server error"})
-})
 
-app.listen(app.get("port"), ()=>{
-    console.log(`Server graciously running on port ${app.get("port")}`)
-})
+// ✅ REAL error-handling middleware
+app.use((err, req, res, next) => {
+    console.error("🔥 Server Error:", err);
+    res.status(500).json({
+        error: "Internal Server Error",
+        message: err.message
+    });
+});
+
+app.listen(app.get("port"), () => {
+    console.log(`Server graciously running on port ${app.get("port")}`);
+});
