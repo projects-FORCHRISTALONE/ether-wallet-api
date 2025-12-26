@@ -26,7 +26,7 @@ app.post("/api/contracts", (req,res,next)=>{
         return res.status(400).json({error: "No data provided from api"})
     }
 
-    const payload = req.body;
+
 
     const filePath = path.join(__dirname, "contract_registry.json");
 
@@ -35,7 +35,7 @@ app.post("/api/contracts", (req,res,next)=>{
     }
     
     // registry.push(payload);
-    let registry = JSON.parse(fs.readFileSync(filePath))
+    let registry = req.body
 
     fs.writeFileSync(filePath, JSON.stringify(registry, null, 2))
 
