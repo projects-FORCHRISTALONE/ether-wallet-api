@@ -1,17 +1,18 @@
 // ALL THANKS AND GLORY TO THE AND my ONLY GOD AND LORD JESUS CHRIST ALONE
 // BY GOD'S GRACE ALONE
 
-require("dotenv").config();
+require("dotenv").config(); 
 
-const express = require("express");
-const cors = require("cors");
+const express = require("express"); 
+const cors = require("cors"); 
 const fs = require("fs");
 const path = require("path");
 
 const cors = require("cors")
 const app = express();
 
-app.use(cors())
+app.use(cors());
+
 app.set("port", process.env.PORT || 4001);
 
 app.use(cors());
