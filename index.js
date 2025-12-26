@@ -23,29 +23,24 @@ app.get("/", (req,res)=>{
 app.post("/api/contracts", (req,res,next)=>{
 
     if(!req.body || Object.keys(req.body).length === 0){
-        return res.status(400).json({error: "No data provided"})
+        return res.status(400).json({error: "No data provided from api"})
     }
 
     const payload = req.body;
 
     const filePath = path.join(__dirname, "contract_registry.json");
 
-    let registry = [];
-
     if (fs.existsSync(filePath)){
-        registry = JSON.parse(fs.readFileSync(filePath))
+        fs.unlinkSync(filePath)
     }
-    else{
-        fs.writeFileSync(filePath,"");
-    }
-
-    registry.push(payload);
+    
+    // registry.push(payload);
+    let registry = JSON.parse(fs.readFileSync(filePath))
 
     fs.writeFileSync(filePath, JSON.stringify(registry, null, 2))
 
-    // res.type("application/json");
 
-    res.status(200).json({appended: true})
+    res.status(200).json({updated: true})
 })
 
 app.get("/api/retrieve_contract_details", (req,res)=>{
@@ -57,7 +52,7 @@ app.get("/api/retrieve_contract_details", (req,res)=>{
         res.status(200).json({data: registry})
     }
     else{
-        res.status(400).json({error: "No data provided"})
+        res.status(400).json({error: "No data provided from cache"})
     }
 })
 
