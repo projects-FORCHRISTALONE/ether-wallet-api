@@ -11,12 +11,19 @@ const path = require("path");
 const cors = require("cors")
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:4000",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+    credentials: false
+}));
 
 app.set("port", process.env.PORT || 4001);
 
-app.use(cors());
+
 app.use(express.json());
+
+app.options("*", cors())
 
 app.get("/", (req, res) => {
     res.status(200).json({ praiseToTheLord: "The Lord alone is praised" });
