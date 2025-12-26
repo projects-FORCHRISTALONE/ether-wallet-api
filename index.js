@@ -30,9 +30,9 @@ app.post("/api/contracts", (req,res,next)=>{
 
     const filePath = path.join(__dirname, "contract_registry.json");
 
-    if (fs.existsSync(filePath)){
-        fs.unlinkSync(filePath)
-    }
+    // if (fs.existsSync(filePath)){
+    //     fs.unlinkSync(filePath)
+    // }
     
     // registry.push(payload);
     let registry = req.body
