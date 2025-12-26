@@ -74,6 +74,8 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(app.get("port"), () => {
-    console.log(`Server graciously running on port ${app.get("port")}`);
-});
+// app.listen(app.get("port"), () => {
+//     console.log(`Server graciously running on port ${app.get("port")}`);
+// });
+
+module.exports = app
