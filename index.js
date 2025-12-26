@@ -33,7 +33,7 @@ app.post("/api/contracts", (req, res, next) => {
             "utf8"
         );
 
-        res.status(200).json({ updated: true });
+        res.status(200).json({ data_received: req.body});
     } catch (err) {
         next(err);
     }
