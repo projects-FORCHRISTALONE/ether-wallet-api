@@ -22,8 +22,6 @@ app.set("port", process.env.PORT || 4001);
 
 app.use(express.json());
 
-app.options("*", cors())
-
 app.get("/", (req, res) => {
     res.status(200).json({ praiseToTheLord: "The Lord alone is praised" });
 });
