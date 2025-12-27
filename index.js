@@ -37,24 +37,33 @@ app.get("/", (req, res) => {
     res.status(200).json({ praiseToTheLord: "The Lord alone is praised" });
 });
 
-app.post("/api/contracts", (req, res, next) => {
-    try {
-        if (!req.body || Object.keys(req.body).length === 0) {
-            return res.status(400).json({ error: "No data provided from api" });
-        }
+// app.post("/api/contracts", (req, res, next) => {
+//     try {
+//         if (!req.body || Object.keys(req.body).length === 0) {
+//             return res.status(400).json({ error: "No data provided from api" });
+//         }
 
-        const filePath = "contract_registry.json";
+//         const filePath = "contract_registry.json";
 
-        fs.writeFileSync(
-            filePath,
-            JSON.stringify(req.body, null, 2),
-            "utf8"
-        );
+//         fs.writeFileSync(
+//             filePath,
+//             JSON.stringify(req.body, null, 2),
+//             "utf8"
+//         );
 
-        res.status(200).json({ data_received: req.body});
-    } catch (err) {
-        next(err);
-    }
+//         res.status(200).json({ data_received: req.body});
+//     } catch (err) {
+//         next(err);
+//     }
+// });
+
+app.post("/api/contracts", (req, res) => {
+  const payload = req.body; // array or object of contracts
+
+  const filePath = path.join(__dirname, "contract_registry.json");
+  fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
+
+  res.status(200).json({ saved: true });
 });
 
 app.get("/api/retrieve_contract_details", (req, res, next) => {
