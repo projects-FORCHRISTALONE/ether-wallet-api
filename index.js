@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
 app.post("/api/contracts", (req, res) => {
   const payload = req.body; // array or object of contracts
 
-  const filePath = path.join(__dirname, "contract_registry.json");
+  const filePath = "contract_registry.json";
   fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
 
   res.status(200).json({ saved: true });
