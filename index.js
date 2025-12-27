@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
 app.post("/api/contracts", (req, res) => {
   const payload = req.body; // array or object of contracts
 
-  const filePath = "contract_registry.json";
+  const filePath = "/tmp/contract_registry.json";
   fs.writeFileSync(filePath, JSON.stringify(payload, null, 2));
 
   res.status(200).json({ saved: true });
@@ -68,7 +68,7 @@ app.post("/api/contracts", (req, res) => {
 
 app.get("/api/retrieve_contract_details", (req, res, next) => {
     try {
-        const filePath = "contract_registry.json";
+        const filePath = "/tmp/contract_registry.json";
 
         if (!fs.existsSync(filePath)) {
             return res.status(400).json({ error: "No data provided from cache" });
