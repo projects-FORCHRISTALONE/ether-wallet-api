@@ -24,7 +24,7 @@ app.use(cors({
     //         callback( new Error ("Not allowed by CORS"))
     //     }
     // },
-    origin: "https://ether-wallet-frontend.vercel.app/",
+    origin: "https://ether-wallet-frontend.vercel.app",
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
     credentials: false
