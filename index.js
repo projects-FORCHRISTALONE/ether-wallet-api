@@ -12,7 +12,7 @@ const app = express();
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://ether-wallet-frontend.vercel.app"
+    "https://ether-wallet-frontend.vercel.app/"
 ]
 
 app.use(cors({
